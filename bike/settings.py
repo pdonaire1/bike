@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
+from unipath import Path
+import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +28,8 @@ SECRET_KEY = '%-2q(@k8^9txv1-6&v^rrpjn@*q*f_=#+m&m&_91uh)gdc4y-('
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+BASE_DIR = Path(__file__).ancestor(2)
+sys.path.append(BASE_DIR.child("apps"))
 
 # Application definition
 DJANGO_APPS = [
@@ -47,8 +49,8 @@ PROJECT_APPS = [
     'bikes',
     'clients',
     'promotions',
+    'rental_types',
     # 'rentals',
-    # 'types',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
