@@ -48,9 +48,8 @@ PROJECT_APPS = [
     'base',
     'bikes',
     'clients',
-    'promotions',
-    'rental_types',
-    # 'rentals',
+    # 'promotions',
+    'rentals',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
