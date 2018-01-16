@@ -23,6 +23,7 @@ class Bike(models.Model):
         max_length=2,
         choices=BIKE_TYPE_CHOICES,
         default=TRAVEL)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.bike_code) + ' ' + str(self.bike_type)

@@ -1,0 +1,15 @@
+{% extends 'base_index.html' %}
+{% load static from staticfiles %}
+{% block title %}Bike Index{% endblock %}
+{% block content %}
+	<h1 class="text-center">Create new Rental</h1><hr/>
+	<br/>
+  <from action="">
+    {% csrf_token %}
+    <p class="text-center"><b>Client</b></p>
+    {{from_client}}
+    <hr />
+  </form>
+	<br/>
+{% endblock %}
+1

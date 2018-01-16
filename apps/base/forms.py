@@ -14,10 +14,7 @@ from django.forms.widgets import (
 
 class LoginForm(forms.Form):
     """!
-    Clase del formulario de logeo
-
-    @author Rodrigo Boet (rudmanmrrod at gmail)
-    @date 01-03-2017
+    Class to login form
     """
     ## Campo de la constraseña
     contrasena = CharField()
@@ -31,14 +28,8 @@ class LoginForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         """!
-        Metodo que sobreescribe cuando se inicializa el formulario
-
-        @author Rodrigo Boet (rudmanmrrod at gmail)
-        @date 01-03-2017
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param args <b>{list}</b> Lista de los argumentos
-        @param kwargs <b>{dict}</b> Diccionario con argumentos
-        @return Retorna el formulario validado
+        Method that overwritewhen is initalized the form
+        @return valid form
         """
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['contrasena'].widget = PasswordInput()
@@ -52,18 +43,14 @@ class LoginForm(forms.Form):
 
     def clean(self):
         """!
-        Método que valida si el usuario a autenticar es valido
-
-        @author Rodrigo Boet (rudmanmrrod at gmail)
-        @date 21-04-2017
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @return Retorna el campo con los errores
+        Method that validate user
+        @return the fields with errors
         """
         usuario = self.cleaned_data['usuario']
         contrasena = self.cleaned_data['contrasena']
         usuario = authenticate(username=usuario,password=contrasena)
         if(not usuario):
-            msg = "Verifique su usuario o contraseña"
+            msg = "Verify your user or password"
             self.add_error('usuario', msg)
 
     class Meta:
