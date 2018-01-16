@@ -8,10 +8,10 @@ class Bike(models.Model):
     """
     Class that allow to clients rents bikes
     """
-    ROAD = 'RD'
-    MOUNTAIN = 'MT'
-    TRAVEL = 'TR'
-    ELECTRIC = 'EL'
+    ROAD = 'ROAD'
+    MOUNTAIN = 'MOUNTAIN'
+    TRAVEL = 'TRAVEL'
+    ELECTRIC = 'ELECTRIC'
     BIKE_TYPE_CHOICES = (
         (ROAD, 'Road'),
         (MOUNTAIN, 'Mountain'),
@@ -20,7 +20,7 @@ class Bike(models.Model):
     )
     bike_code = models.CharField(max_length=80)
     bike_type = models.CharField(
-        max_length=2,
+        max_length=10,
         choices=BIKE_TYPE_CHOICES,
         default=TRAVEL)
     available = models.BooleanField(default=True)

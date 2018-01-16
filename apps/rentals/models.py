@@ -33,16 +33,27 @@ class RentalType(models.Model):
     def __str__(self):
         return '{0}$ per {1}'.format(self.amount, self.length)
 
+
 class Rental(models.Model):
 	"""
 	Class to make a Rental or invoice
 	"""
     # Range of bikes in promotion, example:
     # Family Rental, is a promotion that can include from 3 to 5 Rentals (of any type) with a discount of 30% of the total price
-	rental_type = models.ForeignKey(RentalType)
-	bike = models.ForeignKey(Bike)
 	client = models.ForeignKey(Client)
 	promotion = models.ForeignKey(Promotion)
 
 	def __str__(self):
 		return str(self.name)
+
+
+class BikeRental(models.Model):
+    """
+    Class beetween Bike and Rentals for invoices
+    """
+    bike = models.ForeignKey(Bike)
+    rental = models.ForeignKey(Rental)
+    rental_type = models.ForeignKey(RentalType)
+
+    def __str__(self):
+        return str(self.id)

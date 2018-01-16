@@ -4,12 +4,114 @@
 {% block content %}
 	<h1 class="text-center">Create new Rental</h1><hr/>
 	<br/>
-  <from action="">
+  <form action="" method="post">
     {% csrf_token %}
     <p class="text-center"><b>Client</b></p>
     {{from_client}}
-    <hr />
+    <hr /><hr />
+    <p class="text-center"><b>Bikes (<span id="bikes-count"></span>)</b></p>
+    <div id="all-bikes">
+    </div>
+    <br />
+    <div class="text-center" id="message-title"></div>
+    <div id="message-text"></div>
+    <button type="button" class="btn" onclick="addBikeForm()">Add another bike</button>
+    <button type="button" class="btn" onclick="removeBikeForm()">Remove a bike</button>
+    <button type="submit" class="btn btn-success" >Create Rental</button>
+
   </form>
 	<br/>
+  <script type="text/javascript">
+  index=0
+  var promotions = "{{ promotions| escapejs}}".split('True').join('\'true\'').split('\'').join('\"');
+  var promotions = JSON.parse(promotions);
+  var bikes_list = "{{ bikes_available| escapejs}}".split('True').join('\'true\'').split('\'').join('\"');
+  var bikes_list = JSON.parse(bikes_list);
+  var rental_types = "{{rental_types}}".split('True').join('\'true\'').split('\'').join('\"');
+  var rental_types = JSON.parse(rental_types);
+  addBikeForm();
+  function addBikeForm(){
+    // Add select for bikes
+    var selectBikeLabel = document.createElement("label");
+    selectBikeLabel.id = "bike_code-label-" + index;
+    selectBikeLabel.htmlFor = "bike_code-" + index;
+    selectBikeLabel.innerHTML = "Select Bike:";
+    var selectBike = document.createElement("select");
+    selectBike.setAttribute('type',"select");
+    selectBike.setAttribute('class',"form-control");
+    selectBike.setAttribute('id',"bike_code-" + index);
+    selectBike.setAttribute('name',"bike_code-" + index);
+    for (var i = 0; i < bikes_list.length; i++) {
+      var option = document.createElement("option");
+      option.value = bikes_list[i]['id'];
+      option.text = bikes_list[i]['bike_code'] + ' - ' + bikes_list[i]['bike_type'];
+      selectBike.appendChild(option);
+    }
+    // Add select for Rental Types
+    var selectRetalTypeLabel = document.createElement("label");
+    selectRetalTypeLabel.id = "rental_types-label-"+index;
+    selectRetalTypeLabel.htmlFor = "rental_types-"+index;
+    selectRetalTypeLabel.innerHTML = "Select Type:";
+    var selectRetalType = document.createElement("select");
+    selectRetalType.setAttribute('type',"select");
+    selectRetalType.setAttribute('class',"form-control");
+    selectRetalType.setAttribute('id',"rental_types-"+index);
+    selectRetalType.setAttribute('name',"rental_types-"+index);
+    for (var i = 0; i < rental_types.length; i++) {
+      var option = document.createElement("option");
+      option.value = rental_types[i]['id'];
+      option.text = rental_types[i]['amount'] + ' - ' + rental_types[i]['length'];
+      selectRetalType.appendChild(option);
+    }
+
+    document.getElementById('all-bikes').appendChild(selectBikeLabel);
+    document.getElementById('all-bikes').appendChild(selectBike);
+    document.getElementById('all-bikes').appendChild(selectRetalTypeLabel);
+    document.getElementById('all-bikes').appendChild(selectRetalType);
+    var hr = document.createElement("hr");
+    hr.id = 'hr-' + index;
+    document.getElementById('all-bikes').appendChild(hr);
+    index+=1;
+
+    lookPromotions();
+    return false;
+  }
+
+  function lookPromotions(){
+    var has_promotion=false;
+    for (var i = 0; i < promotions.length; i++) {
+      if (index >= promotions[i]['count_rental_from'] && index <= promotions[i]['count_rental_to'] ){
+        document.getElementById('message-title').innerHTML = "<b>Has a valid promotion:</b>";
+        document.getElementById('message-text').innerHTML = "<b>Promotion:</b> " + promotions[i]['name'] + ' with ' + promotions[i]['percentaje_discount'] + '% of discount.';
+        has_promotion = true;
+        break;
+      }
+    }
+    if (!has_promotion){
+      document.getElementById('message-title').innerHTML = "";
+      document.getElementById('message-text').innerHTML = "";
+    }
+    document.getElementById('bikes-count').innerHTML = index;
+  }
+
+  function removeBikeForm(){
+    if (index <= 1) {
+      document.getElementById('message-title').innerHTML = "<b>Alert<b>";
+      document.getElementById('message-text').innerHTML = "It is not allow delete all bikes";
+      setTimeout(function(){
+        document.getElementById('message-title').innerHTML = "";
+        document.getElementById('message-text').innerHTML = "";
+      }, 3000);
+      return false;
+    }
+    index-=1;
+    document.getElementById("rental_types-label-"+index).remove();
+    document.getElementById("bike_code-" + index).remove();
+    document.getElementById("bike_code-label-"+index).remove();
+    document.getElementById("rental_types-"+index).remove();
+    document.getElementById("hr-"+index).remove();
+    lookPromotions();
+  }
+  </script>
+
 {% endblock %}
-1
