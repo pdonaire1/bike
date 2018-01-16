@@ -46,7 +46,7 @@ PROJECT_APPS = [
     'base',
     'bikes',
     'clients',
-    # 'promotions',
+    'promotions',
     # 'rentals',
     # 'types',
 ]
