@@ -1,0 +1,36 @@
+[
+  {
+    "model": "rentals.promotion",
+    "pk": 1,
+    "fields": {
+      "count_rental_from": 3,
+      "count_rental_to": 5,
+      "percentaje_discount": 30,
+      "name": "Family Rental"
+    }
+  },
+  {
+    "model": "rentals.rentaltype",
+    "pk": 1,
+    "fields": {
+      "amount": 5.0,
+      "length": "hour"
+    }
+  },
+  {
+    "model": "rentals.rentaltype",
+    "pk": 2,
+    "fields": {
+      "amount": 20.0,
+      "length": "day"
+    }
+  },
+  {
+    "model": "rentals.rentaltype",
+    "pk": 3,
+    "fields": {
+      "amount": 60.0,
+      "length": "week"
+    }
+  }
+]

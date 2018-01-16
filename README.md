@@ -11,6 +11,7 @@ Configure database's credentials in DATABASES in `bike_api/settings.py` and run:
 ```
 python manage.py migrate
 python manage.py createsuperuser
+python manage.py loaddata apps/base/fixtures/constants.json
 python manage.py runserver
 ```
 
