@@ -44,7 +44,7 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     'base',
-    # 'bikes',
+    'bikes',
     # 'clients',
     # 'promotions',
     # 'rentals',
