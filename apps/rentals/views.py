@@ -5,7 +5,7 @@
 from django.shortcuts import render
 from django.views.generic import FormView, RedirectView
 from rentals.forms import NewRentalForm, ClientForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.core.urlresolvers import reverse_lazy
 from bikes.models import Bike
 from clients.models import Client
@@ -14,6 +14,7 @@ from django.core import serializers
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+
 # class NewRentalView(FormView):
 #     """
 #     View that make the login of the platform
@@ -91,3 +92,10 @@ class NewRentalView(TemplateView):
 
         messages.add_message(request, messages.INFO, 'Rental Successfully Created')
         return HttpResponseRedirect(reverse_lazy('index'))
+
+class RentalDetailView(DetailView):
+    model = Rental
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

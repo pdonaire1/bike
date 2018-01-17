@@ -9,6 +9,7 @@ from django.views.generic import FormView, RedirectView
 from .forms import LoginForm
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+from rentals.models import Rental
 
 class Index(TemplateView):
     """!
@@ -18,7 +19,11 @@ class Index(TemplateView):
     Pablo Gonzalez Donaire
     """
     template_name = "index.html"
-    # group_required = u"Administrador"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rentals'] = Rental.objects.all()
+        return context
 
 class LoginView(FormView):
     """

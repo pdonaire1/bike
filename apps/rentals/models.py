@@ -53,14 +53,15 @@ class Rental(models.Model):
         bike_rental = BikeRental.objects.filter(rental=self, rental__finished=False)
         amount = 0
         for i in bike_rental:
-            amount += i.rental_types.amount
+            amount += i.rental_type.amount
+        data_count = bike_rental.count()
         promotion = Promotion.objects.filter(
             count_rental_to__gte=data_count,
             count_rental_from__lte=data_count).first()
         if promotion:
             amount = amount - (amount * promotion.percentaje_discount / 100)
-        return amount
-        
+        return str(amount) + '$'
+
 class BikeRental(models.Model):
     """
     Class beetween Bike and Rentals for invoices

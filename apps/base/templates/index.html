@@ -6,4 +6,44 @@
 	<br/>
 	<p>Your system for manage rentals bikes.</p>
 	<br/>
+	{{rentals}}
+	<table id="myTable">
+		<thead>
+			<tr>
+				<th>Client</th>
+				<th>Client Phone Number</th>
+				<th>Promotion</th>
+				<th>Delivered</th>
+				<th>Total</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rental in rentals %}
+	      <tr>
+					<td>{{ rental.client.full_name }}</td>
+					<td>{{ rental.client.phone }}</td>
+					<td>{{ rental.promotion }}</td>
+					<td>
+						{% if rental.finished %}
+							<span style="color: gree;">Yes</span>
+						{% else %}
+							<span style="color: red">No</span>
+						{% endif %}
+					</td>
+					<td>{{ rental.total_amount }}</td>
+	        <td>
+						<a href="#"><i class="fa fa-fw fa-info"></i></a>
+						<a href="#"><i class="fa fa-fw fa-trash"></i></a>
+					</td>
+	      </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.noConflict();
+			$('#myTable').DataTable();
+		});
+	</script>
 {% endblock %}
