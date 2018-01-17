@@ -8,10 +8,12 @@ from rentals.forms import NewRentalForm, ClientForm
 from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse_lazy
 from bikes.models import Bike
-from rentals.models import RentalType, Promotion
+from clients.models import Client
+from rentals.models import RentalType, Promotion, Rental, BikeRental
 from django.core import serializers
 from django.utils.safestring import mark_safe
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 # class NewRentalView(FormView):
 #     """
 #     View that make the login of the platform
@@ -50,7 +52,6 @@ class NewRentalView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        print (self.request.POST)
         phone = self.request.POST.get('phone')
         full_name = self.request.POST.get('full_name')
         address = self.request.POST.get('address')
@@ -61,6 +62,32 @@ class NewRentalView(TemplateView):
         client.full_name = full_name
         client.address = address
         client.save()
-        
 
-        return HttpResponse('Hello, World!')
+        index = 0
+        data  = []
+        while True:
+            try:
+                data.append({
+                    "rental_type_id": self.request.POST['rental_types-' + str(index)],
+                    "bike_id": self.request.POST['bike_code-' + str(index)]
+                })
+                index += 1
+            except: break
+        data_count = len(data)
+        # Verifying if there are some promotion available for the number of bikes
+        promotion = Promotion.objects.filter(
+            count_rental_to__gte=data_count,
+            count_rental_from__lte=data_count).first()
+        rental = Rental(client=client, promotion=promotion)
+        rental.save()
+
+        # Let's save the all the bikes in the invoice
+        for d in data:
+            bike_rental = BikeRental(
+                rental_type=RentalType.objects.get(id=d['rental_type_id']),
+                bike=Bike.objects.get(id=d['bike_id']),
+                rental=rental)
+            bike_rental.save()
+
+        messages.add_message(request, messages.INFO, 'Rental Successfully Created')
+        return HttpResponseRedirect(reverse_lazy('index'))
