@@ -32,7 +32,7 @@
 					<td>{{ rental.total_amount }}</td>
 	        <td>
 						<a href="{% url 'rental-detail' rental.id %}"><i class="fa fa-fw fa-info"></i></a>
-						<a href="#"><i class="fa fa-fw fa-trash"></i></a>
+						<a href="{% url 'rental-delete' rental.id %}"><i class="fa fa-fw fa-trash"></i></a>
 					</td>
 	      </tr>
 			{% endfor %}

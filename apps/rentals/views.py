@@ -5,7 +5,7 @@
 from django.shortcuts import render
 from django.views.generic import FormView, RedirectView
 from rentals.forms import NewRentalForm, ClientForm
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from bikes.models import Bike
 from clients.models import Client
@@ -59,7 +59,7 @@ class NewRentalView(TemplateView):
         if not phone or not full_name or not address:
             messages.add_message(request, messages.ERROR, 'Error: you have to fill all fields')
             return HttpResponseRedirect(reverse_lazy('new-rental'))
-            
+
         if Client.objects.filter(phone=phone).exists():
             client = Client.objects.get(phone=phone)
         else:
@@ -112,3 +112,18 @@ class RentalDetailView(DetailView):
         rental.save()
         messages.add_message(request, messages.INFO, 'Rental status has been Finished')
         return HttpResponseRedirect(reverse_lazy('index'))
+
+class RentalDeleteView(DeleteView):
+	"""
+	Class to delete the Rentail object
+    """
+	model = Rental
+	template_name = "rentals/rental_delete.html"
+	success_message = "Rental was successfully deleted"
+	success_url = reverse_lazy('index')
+
+	def get_object(self, **kwargs):
+		"""!
+		Return the rental object
+		"""
+		return Rental.objects.get(id=int(self.kwargs['pk']))

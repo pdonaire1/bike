@@ -1,0 +1,24 @@
+{% extends 'base_index.html' %}
+{% load static from staticfiles %}
+{% block title %}Rental Delete{% endblock %}
+{% block page_title %}Rental Delete{% endblock %}
+{% block content %}
+
+  <table class="table">
+    <tr>
+      <td>Are you sure you want to delete the Rental:</td>
+      <td>{{ object }}</td>
+    </tr>
+    <tr>
+      <td>Created Date:</td>
+      <td>{{ object.date }}</td>
+    </tr>
+    <tr>
+      <td>With status:</td>
+      <td>{% if object.finished %}Delivered and paid{% else %}Unpad{% endif %}</td>
+    </tr>
+  </table>
+  <form class="" action="" method="post">{% csrf_token %}
+    <button type="submit" class="btn btn-danger" >Delete this rental</button>
+  </form>
+{% endblock %}
