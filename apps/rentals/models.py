@@ -50,7 +50,20 @@ class Rental(models.Model):
 
     @property
     def total_amount(self):
+        """
+            Method that show the invoice total amount
+        """
+        bike_rental = BikeRental.objects.filter(rental=self)
+        return self.get_amount(bike_rental)
+
+    def due(self):
+        """
+            Method that show the debt that client has
+        """
         bike_rental = BikeRental.objects.filter(rental=self, rental__finished=False)
+        return self.get_amount(bike_rental)
+
+    def get_amount(self, bike_rental):
         amount = 0
         for i in bike_rental:
             amount += i.rental_type.amount

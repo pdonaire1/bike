@@ -53,9 +53,13 @@ class NewRentalView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        phone = self.request.POST.get('phone')
-        full_name = self.request.POST.get('full_name')
-        address = self.request.POST.get('address')
+        phone = self.request.POST.get('phone', None)
+        full_name = self.request.POST.get('full_name', None)
+        address = self.request.POST.get('address', None)
+        if not phone or not full_name or not address:
+            messages.add_message(request, messages.ERROR, 'Error: you have to fill all fields')
+            return HttpResponseRedirect(reverse_lazy('new-rental'))
+            
         if Client.objects.filter(phone=phone).exists():
             client = Client.objects.get(phone=phone)
         else:
@@ -95,7 +99,16 @@ class NewRentalView(TemplateView):
 
 class RentalDetailView(DetailView):
     model = Rental
+    template_name = 'rentals/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['bike_rentals'] = BikeRental.objects.filter(rental__id=context['object'].id)
         return context
+
+    def post(self, request, pk, *args, **kwargs):
+        rental = Rental.objects.get(id=pk)
+        rental.finished = True
+        rental.save()
+        messages.add_message(request, messages.INFO, 'Rental status has been Finished')
+        return HttpResponseRedirect(reverse_lazy('index'))

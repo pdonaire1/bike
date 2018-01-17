@@ -1,12 +1,10 @@
 {% extends 'base_index.html' %}
 {% load static from staticfiles %}
 {% block title %}Bike Index{% endblock %}
+{% block page_title %}Welcome to the bike application{% endblock %}
 {% block content %}
-	<h1 class="text-center">Welcome to the bike application</h1><hr/>
-	<br/>
 	<p>Your system for manage rentals bikes.</p>
 	<br/>
-	{{rentals}}
 	<table id="myTable">
 		<thead>
 			<tr>
@@ -26,14 +24,14 @@
 					<td>{{ rental.promotion }}</td>
 					<td>
 						{% if rental.finished %}
-							<span style="color: gree;">Yes</span>
+							<span style="color: green;">Yes</span>
 						{% else %}
 							<span style="color: red">No</span>
 						{% endif %}
 					</td>
 					<td>{{ rental.total_amount }}</td>
 	        <td>
-						<a href="#"><i class="fa fa-fw fa-info"></i></a>
+						<a href="{% url 'rental-detail' rental.id %}"><i class="fa fa-fw fa-info"></i></a>
 						<a href="#"><i class="fa fa-fw fa-trash"></i></a>
 					</td>
 	      </tr>

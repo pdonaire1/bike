@@ -1,0 +1,58 @@
+{% extends 'base_index.html' %}
+{% load static from staticfiles %}
+{% block title %}Bike Detail{% endblock %}
+{% block page_title %}Rental Detail{% endblock %}
+{% block content %}
+
+  <table class="table">
+    <tr>
+      <td>Invoice to:</td>
+      <td>{{ object.client.full_name }}</td>
+    </tr>
+    <tr>
+      <td>Created Date:</td>
+      <td>{{ object.date }}</td>
+    </tr>
+    <tr>
+      <td>Promotion</td>
+      <td>{% if object.promotion %}{{ object.promotion.name }} {% else %} None {% endif %}</td>
+    </tr>
+    <tr>
+      <td>Delivered/Finished</td>
+      <td>
+        {% if rental.finished %}
+          <span style="color: green;">Yes</span>
+        {% else %}
+          <span style="color: red">No</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <tr>
+      <td>Rental type:</td>
+      <td>
+        {% for r in bike_rentals %}
+          {{ r.bike }} - {{ r.rental_type }}
+          <br />
+        {% endfor %}
+        {% if object.promotion %}
+          <hr />
+          - {{ object.promotion.percentaje_discount }}% of discount
+        {% endif %}
+      </td>
+    </tr>
+		<tr>
+      <td>Total amount:</td>
+      <td>{{ object.total_amount }}</td>
+    </tr>
+		<tr>
+      <td>Due:</td>
+      <td><b>{{ object.due }}</b></td>
+    </tr>
+  </table>
+  {% if not object.finished %}
+    <form class="" action="" method="post">{% csrf_token %}
+      <button type="submit" class="btn btn-success" >Finish this rental</button>
+    </form>
+  {% endif %}
+{% endblock %}
