@@ -14,6 +14,7 @@ from django.core import serializers
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # class NewRentalView(FormView):
 #     """
@@ -37,7 +38,7 @@ from django.contrib import messages
 #         #         self.request.session.set_expiry(1209600)
 #         return super(NewRentalView, self).form_valid(form)
 
-
+@login_required
 class NewRentalView(TemplateView):
     template_name = "rentals/new_rental.html"
 
@@ -97,6 +98,7 @@ class NewRentalView(TemplateView):
         messages.add_message(request, messages.INFO, 'Rental Successfully Created')
         return HttpResponseRedirect(reverse_lazy('index'))
 
+@login_required
 class RentalDetailView(DetailView):
     model = Rental
     template_name = 'rentals/detail.html'
@@ -113,6 +115,7 @@ class RentalDetailView(DetailView):
         messages.add_message(request, messages.INFO, 'Rental status has been Finished')
         return HttpResponseRedirect(reverse_lazy('index'))
 
+@login_required
 class RentalDeleteView(DeleteView):
 	"""
 	Class to delete the Rentail object
