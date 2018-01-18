@@ -56,6 +56,7 @@ class Rental(models.Model):
         bike_rental = BikeRental.objects.filter(rental=self)
         return self.get_amount(bike_rental)
 
+    @property
     def due(self):
         """
             Method that show the debt that client has
