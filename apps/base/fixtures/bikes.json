@@ -1,0 +1,38 @@
+[
+  {
+    "model": "bikes.bike",
+    "pk": 9,
+    "fields": {
+      "bike_code": "001",
+      "bike_type": "TRAVEL",
+      "available": true
+    }
+  },
+  {
+    "model": "bikes.bike",
+    "pk": 10,
+    "fields": {
+      "bike_code": "002",
+      "bike_type": "ROAD",
+      "available": true
+    }
+  },
+  {
+    "model": "bikes.bike",
+    "pk": 11,
+    "fields": {
+      "bike_code": "003",
+      "bike_type": "MOUNTAIN",
+      "available": true
+    }
+  },
+  {
+    "model": "bikes.bike",
+    "pk": 12,
+    "fields": {
+      "bike_code": "004",
+      "bike_type": "ELECTRIC",
+      "available": true
+    }
+  }
+]
