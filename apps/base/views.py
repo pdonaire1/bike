@@ -10,14 +10,17 @@ from .forms import LoginForm
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from rentals.models import Rental
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class Index(TemplateView):
+class Index(LoginRequiredMixin, TemplateView):
     """!
     Clase de la vista inicial
 
     @author @pdonaire1
     Pablo Gonzalez Donaire
     """
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):

@@ -14,32 +14,11 @@ from django.core import serializers
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-# class NewRentalView(FormView):
-#     """
-#     View that make the login of the platform
-#     """
-#     form_class = NewRentalForm
-#     template_name = 'rentals/new_rental.html'
-#     success_url = reverse_lazy('index')
-#
-#     def form_valid(self, form):
-#         """
-#         Method that validate the form
-#         """
-#         # usuario = form.cleaned_data['usuario']
-#         # contrasena = form.cleaned_data['contrasena']
-#         # usuario = authenticate(username=usuario, password=contrasena)
-#         # if usuario.is_superuser or User.objects.filter(pk=usuario.id, groups__name='Administrador').exists():
-#         #     login(self.request, usuario)
-#         #     if self.request.POST.get('remember_me') is not None:
-#         #         # Session expira a los dos meses si no se deslogea
-#         #         self.request.session.set_expiry(1209600)
-#         return super(NewRentalView, self).form_valid(form)
-
-@login_required
-class NewRentalView(TemplateView):
+class NewRentalView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'
     template_name = "rentals/new_rental.html"
 
     def get_context_data(self, **kwargs):
@@ -98,8 +77,9 @@ class NewRentalView(TemplateView):
         messages.add_message(request, messages.INFO, 'Rental Successfully Created')
         return HttpResponseRedirect(reverse_lazy('index'))
 
-@login_required
-class RentalDetailView(DetailView):
+class RentalDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'
     model = Rental
     template_name = 'rentals/detail.html'
 
@@ -115,18 +95,19 @@ class RentalDetailView(DetailView):
         messages.add_message(request, messages.INFO, 'Rental status has been Finished')
         return HttpResponseRedirect(reverse_lazy('index'))
 
-@login_required
-class RentalDeleteView(DeleteView):
-	"""
-	Class to delete the Rentail object
+class RentalDeleteView(LoginRequiredMixin, DeleteView):
     """
-	model = Rental
-	template_name = "rentals/rental_delete.html"
-	success_message = "Rental was successfully deleted"
-	success_url = reverse_lazy('index')
+    Class to delete the Rentail object
+    """
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'
+    model = Rental
+    template_name = "rentals/rental_delete.html"
+    success_message = "Rental was successfully deleted"
+    success_url = reverse_lazy('index')
 
-	def get_object(self, **kwargs):
-		"""!
-		Return the rental object
-		"""
-		return Rental.objects.get(id=int(self.kwargs['pk']))
+    def get_object(self, **kwargs):
+    	"""!
+    	Return the rental object
+    	"""
+    	return Rental.objects.get(id=int(self.kwargs['pk']))

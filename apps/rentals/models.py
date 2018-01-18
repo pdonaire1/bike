@@ -73,7 +73,7 @@ class Rental(models.Model):
             count_rental_to__gte=data_count,
             count_rental_from__lte=data_count).first()
         if promotion:
-            amount = amount - (amount * promotion.percentaje_discount / 100)
+            amount = amount - float(amount * promotion.percentaje_discount / 100)
         return str(amount) + '$'
 
 class BikeRental(models.Model):
