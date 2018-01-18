@@ -241,3 +241,21 @@ class RentalsViewTests(TestCase):
         rental.finished = True
         rental.save()
         self.assertEqual(rental.due, str('0$'))
+
+    def test_delete_rental(self):
+        """
+        Test for detele rental, to make sure rental was successfully deleted
+        """
+        self.rental = Rental.objects.create(client=self.rental_client)
+        url = reverse('rental-delete', kwargs={'pk': self.rental.id})
+        # With no authentication
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Rental.objects.filter(client=self.rental_client).exists())
+        # with authenticated user
+        self.client.login(username=self.user.username, password=self.user_password)
+        response = self.client.post(url, follow=True)
+        for m in response.context['messages']:
+            self.assertEqual(str(m), 'Rental status has been Finished')
+            break
+        self.assertFalse(Rental.objects.filter(client=self.rental_client).exists())
