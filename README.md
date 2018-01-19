@@ -18,6 +18,9 @@ python manage.py runserver
 
 Go to the page: http://127.0.0.1:8000/
 
+#Graph DataBase:
+![alt text](http://url/to/img.png)
+
 # Explanation:
 Bike is an app to rent bikes of differents types.
 1. The user of system will add new rentals and then he can view all rentals history in the index of the plattform
