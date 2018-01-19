@@ -18,8 +18,8 @@ python manage.py runserver
 
 Go to the page: http://127.0.0.1:8000/
 
-#Graph DataBase:
-![alt text](http://url/to/img.png)
+# DataBase Graph:
+![alt text](https://github.com/pdonaire1/bike/blob/master/Diagrama1.png)
 
 # Explanation:
 Bike is an app to rent bikes of differents types.
