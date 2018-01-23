@@ -18,7 +18,13 @@ python manage.py runserver
 
 Go to the page: http://127.0.0.1:8000/
 
-# DataBase Graph:
+# Running tests
+Located in apps/rentals/tests.py
+```
+python manage.py test apps/rentals
+```
+
+# DataBase Graph
 ![alt text](https://github.com/pdonaire1/bike/blob/master/Diagrama1.png)
 
 # Explanation:
