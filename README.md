@@ -5,6 +5,7 @@
 ```
 mkvirtualenv bike_vrt
 pip install -r requirements.txt
+pip install unipath
 ```
 
 Configure database's credentials in DATABASES in `bike_api/settings.py` and run:
