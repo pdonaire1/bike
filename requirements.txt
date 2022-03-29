@@ -20,7 +20,7 @@ itypes==1.1.0
 Jinja2==2.9.6
 Markdown==2.6.9
 MarkupSafe==1.0
-paramiko==2.4.0
+paramiko==2.10.1
 path.py==10.5
 psycopg2==2.7.3.1
 py==1.4.34
